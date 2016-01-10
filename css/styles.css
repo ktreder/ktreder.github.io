@@ -71,8 +71,9 @@ hr.min {
 	margin-bottom: 0px;
 }
 
-#schools p.header {
+.header {
 	font-weight: bold;
+	font-size: 1.5em;
 }
 
 .no-pad-ul>li {
@@ -81,6 +82,10 @@ hr.min {
 
 .no-pad-ul {
 	padding-left: 0px;
+}
+
+.spacer {
+	visibility: hidden;
 }
 
 a[data-toggle="tooltip"] {

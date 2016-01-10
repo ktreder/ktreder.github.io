@@ -44,53 +44,91 @@
 			].join(''),
 			data    : [
 				{ name: 'school', icon: 'graduation-cap' },
+				{ name: 'activities', icon: 'flag' },
 				{ name: 'awards', icon: 'trophy' },
 			]
 		},
 		school: {
 			template: [
-				'<div id="schools">',
-					'{{#each this}}',
-					'<div class="col-xs-12 col-md-6">',
-						'<h3>{{ name }}</h3>',
-						'<h4>Class of {{ grad }}{{#if note}} &ndash; {{note}}{{/if}}</h4>',
-						'<div class="row">',
-							'<div class="col-xs-6 col-sm-5 classes">',
-								'<p class="header">Classes</p>',
-								'<ul class="no-pad-ul">',
-									'{{#each classes}}',
-									'<li><a href="#" data-toggle="tooltip" c-title="{{ title }}" c-time="{{ time }}">{{ name }} <i class="fa fa-caret-right"></i></a></li>',
-									'{{/each}}',
-								'</ul>',
-							'</div>',
-							'<div class="col-xs-6 col-sm-7 activities">',
-								'<p class="header">Activities</p>',
-								'<ul class="no-pad-ul">',
-									'{{#each activities}}',
-									'<li>',
-										'{{#if details.length}}',
-											'<a href="#" data-toggle="tooltip" details="{{ details }}"><i class="fa fa-caret-left"></i> {{ name }}</a>',
-										'{{else}}',
-											'{{ name }}',
-										'{{/if}}',
-									'</li>',
-									'{{/each}}',
-								'</ul>',
-							'</div>',
+				'{{#each this}}',
+				'<div class="col-xs-12 col-md-6">',
+					'<h3>{{ name }}</h3>',
+					'<h4>Class of {{ grad }}{{#if note}} &ndash; {{note}}{{/if}}</h4>',
+					'<div class="row">',
+						'<div class="col-xs-12 classes">',
+							'<table class="table">',
+								'<thead>',
+									'<tr>',
+										'{{#each details}}<th>{{capitalize this}}</th>{{/each}}',
+									'</tr>',
+								'</thead',
+								'{{#each classes}}',
+								'<tr>',
+									'{{#each ../details}}<td>{{getDetail ../this this}}</td>{{/each}}',
+								'</tr>',
+								'{{/each}}',
+							'</table>',
 						'</div>',
 					'</div>',
-					'{{/each}}',
 				'</div>',
+				'{{/each}}',
 			].join(''),
 			data: [
 				{
 					name: 'Stanford University',
 					grad: '2018',
+					details: [ 'name', 'title', 'time' ],
 					classes: [
-						{ name: 'Class 1', title: 'Title 1', time: 'Freshman Autumn' },
-						{ name: 'Class 2', title: 'Title 2', time: 'Freshman Winter' },
-						{ name: 'Class 3', title: 'Title 3', time: 'Freshman Spring' },
+						{ name: 'POLISCI 1', title: 'The Science of Politics', time: 'Sophomore Winter' },
+						{ name: 'POLISCI 150B', title: 'Machine Learning for Social Scientists', time: 'Sophomore Winter' },
+						{ name: 'PWR 2', title: 'A Rebel With A Cause: The Rhetoric of Giving a Damn ', time: 'Sophomore Winter' },
+						{ name: 'POLISCI 150A', title: 'Data Science for Politics', time: 'Sophomore Autumn' },
+						{ name: 'POLISCI 120C', title: "What's Wrong with American Government? An Institutional Approach", time: 'Sophomore Autumn' },
+						{ name: 'CSRE 196C', title: 'Introduction to Comparative Studies in Race and Ethnicity', time: 'Sophomore Autumn' },
+					]
+				},
+				{
+					name: 'West Anchorage High School',
+					grad: '2014',
+					details: [ 'name', 'time' ],
+					classes: [
+						{ name: 'AP Calculus AB', time: 'Junior' },
+						{ name: 'AP Calculus BC', time: 'Senior' },
+						{ name: 'AP Statistics', time: 'Senior' },
+						{ name: 'AP Biology', time: 'Senior' },
+						{ name: 'AP Physics B', time: 'Junior' },
+						{ name: 'AP United States History', time: 'Sophomore' },
 					],
+				}
+			]
+		},
+		activities: {
+			template: [
+				'<div class="col-xs-12">',
+					'{{#each this}}',
+					'<table class="table">',
+						'<caption class="header">{{capitalize type}} Activities</caption>',
+						'<thead>',
+							'<tr>',
+								'<th>Activity</th>',
+								'<th>Positions Held and Accomplishments</th>',
+							'</tr>',
+						'</thead>',
+						'<tbody>',
+							'{{#each activities}}',
+							'<tr>',
+								'<td>{{ name }}</td>',
+								'<td>{{unpipe details}}</td>',
+							'</tr>',
+							'{{/each}}',
+						'</tbody>',
+					'</table>',
+					'{{/each}}',
+				'</div>'
+			].join(''),
+			data: [
+				{
+					type: 'college',
 					activities: [
 						{ name: "Stanford Women's Rugby", details: [ 'Financial Officer, 2015-2016' ] },
 						{ name: 'Stanford Democrats', details: [ 'Membership & Outreach Associate, 2015-2016' ] },
@@ -102,17 +140,10 @@
 					]
 				},
 				{
-					name: 'West Anchorage High School',
-					grad: '2014',
-					classes: [
-						{ name: 'Class 1', time: 'Freshman' },
-						{ name: 'Class 2', time: 'Sophomore' },
-						{ name: 'Class 3', time: 'Junior' },
-						{ name: 'Class 4', time: 'Senior' },
-					],
+					type: 'high-school',
 					activities: [
 						{ name: 'Wrestling', details: [ 'Captain, 2013 & 2014', 'Varsity Letter, Years?', "Women's State Title, 2013", "Women's State Title, 2014" ] },
-						{ name: 'Track and Field', details: [ 'Captain, 2013 & 2014', 'Varsity Letter, Years?', 'State Qualifier, 2011-2014', 'regions placer', 'state placer' ] },
+						{ name: 'Track and Field', details: [ 'Captain, 2013 & 2014', 'Varsity Letter, Years?', 'State Qualifier, 2012-2014', 'regions placer', 'state placer' ] },
 						{ name: 'National Honor Society', details: [] },
 						{ name: 'Amnesty International', details: [ 'Co-President, 2013 & 2014' ] },
 					]
@@ -137,9 +168,29 @@
 		},
 	};
 
+	// ------------------------------------------ HANDLEBARS HELPERS
+	// get a key from an object, helpful for nested Handlebar iterations
+	Handlebars.registerHelper('getDetail', function(object, key) {
+		return new Handlebars.SafeString(object[key]);
+	});
+
+	// capitalize each word of a string, with a hyphen indicating a new word
+	Handlebars.registerHelper('capitalize', function(text) {
+		var text = text.split('-');
+		for (var i = 0; i < text.length; i++) {
+			text[i] = text[i][0].toUpperCase() + text[i].substring(1);
+		}
+		return new Handlebars.SafeString(text.join(' '));
+	});
+
+	// remove the pipes that denote new items in an array of text
+	Handlebars.registerHelper('unpipe', function(text) {
+		return new Handlebars.SafeString(text.split('|').join('<br>'));
+	});
+
 	// ------------------------------------------ DATA PROCESSING
-	// for each activity in each school
-	$.each(sections.school.data, function() {
+	// for each activity group, and each activity
+	$.each(sections.activities.data, function() {
 		$.each(this.activities, function() {
 			// join into a string delimited by a pipe character
 			this.details = this.details.join('|');
@@ -219,6 +270,12 @@
 
 		// include a line if both title and time are not empty
 		return title + (title.length && time.length ? '<hr class="min"/>' : '') + time;
+	});
+
+	// ------------------------------------------ LISTENERS
+	// stop scrolling from occuring for empty links
+	$('a[href="#"]').click(function(event) {
+		event.preventDefault();
 	});
 
 })(window, document);
