@@ -25,7 +25,7 @@
 					title   : 'Kathryn Treder',
 					subtitle: 'Stanford University class of 2018',
 					text    : [
-						'Hi! I am a sophomore at Stanford University from Anchorage, Alaska. My major is Political Science with a primary track of Elections, Representation, & Governance and a secondary track of Data Science.'
+						'Hi! I am a Sophomore at Stanford University from Anchorage, Alaska. My major is Political Science with a primary track of Elections, Representation, & Governance and a secondary track of Data Science.'
 					]
 				}
 			}
@@ -56,18 +56,20 @@
 					'<h4>Class of {{ grad }}{{#if note}} &ndash; {{note}}{{/if}}</h4>',
 					'<div class="row">',
 						'<div class="col-xs-12 classes">',
-							'<table class="table">',
-								'<thead>',
+							'<div class="table-responsive">',
+								'<table class="table">',
+									'<thead>',
+										'<tr>',
+											'{{#each details}}<th>{{capitalize this}}</th>{{/each}}',
+										'</tr>',
+									'</thead',
+									'{{#each classes}}',
 									'<tr>',
-										'{{#each details}}<th>{{capitalize this}}</th>{{/each}}',
+										'{{#each ../details}}<td>{{getValue ../this this}}</td>{{/each}}',
 									'</tr>',
-								'</thead',
-								'{{#each classes}}',
-								'<tr>',
-									'{{#each ../details}}<td>{{getDetail ../this this}}</td>{{/each}}',
-								'</tr>',
-								'{{/each}}',
-							'</table>',
+									'{{/each}}',
+								'</table>',
+							'</div>',
 						'</div>',
 					'</div>',
 				'</div>',
@@ -77,27 +79,27 @@
 				{
 					name: 'Stanford University',
 					grad: '2018',
-					details: [ 'name', 'title', 'time' ],
+					details: [ 'name', 'title', 'year', 'quarter' ],
 					classes: [
-						{ name: 'POLISCI 1', title: 'The Science of Politics', time: 'Sophomore Winter' },
-						{ name: 'POLISCI 150B', title: 'Machine Learning for Social Scientists', time: 'Sophomore Winter' },
-						{ name: 'PWR 2', title: 'A Rebel With A Cause: The Rhetoric of Giving a Damn ', time: 'Sophomore Winter' },
-						{ name: 'POLISCI 150A', title: 'Data Science for Politics', time: 'Sophomore Autumn' },
-						{ name: 'POLISCI 120C', title: "What's Wrong with American Government? An Institutional Approach", time: 'Sophomore Autumn' },
-						{ name: 'CSRE 196C', title: 'Introduction to Comparative Studies in Race and Ethnicity', time: 'Sophomore Autumn' },
+						{ name: 'POLISCI 1', title: 'The Science of Politics', year: 'Sophomore', quarter: 'Winter' },
+						{ name: 'POLISCI 150B', title: 'Machine Learning for Social Scientists', year: 'Sophomore', quarter: 'Winter' },
+						{ name: 'PWR 2', title: 'A Rebel With A Cause: The Rhetoric of Giving a Damn', year: 'Sophomore', quarter: 'Winter' },
+						{ name: 'POLISCI 150A', title: 'Data Science for Politics', year: 'Sophomore', quarter: 'Autumn' },
+						{ name: 'POLISCI 120C', title: "What's Wrong with American Government? An Institutional Approach", year: 'Sophomore', quarter: 'Autumn' },
+						{ name: 'CSRE 196C', title: 'Introduction to Comparative Studies in Race and Ethnicity', year: 'Sophomore', quarter: 'Autumn' },
 					]
 				},
 				{
 					name: 'West Anchorage High School',
 					grad: '2014',
-					details: [ 'name', 'time' ],
+					details: [ 'name', 'year' ],
 					classes: [
-						{ name: 'AP Calculus AB', time: 'Junior' },
-						{ name: 'AP Calculus BC', time: 'Senior' },
-						{ name: 'AP Statistics', time: 'Senior' },
-						{ name: 'AP Biology', time: 'Senior' },
-						{ name: 'AP Physics B', time: 'Junior' },
-						{ name: 'AP United States History', time: 'Sophomore' },
+						{ name: 'AP Calculus AB', year: 'Junior' },
+						{ name: 'AP Calculus BC', year: 'Senior' },
+						{ name: 'AP Statistics', year: 'Senior' },
+						{ name: 'AP Biology', year: 'Senior' },
+						{ name: 'AP Physics B', year: 'Junior' },
+						{ name: 'AP United States History', year: 'Sophomore' },
 					],
 				}
 			]
@@ -106,23 +108,25 @@
 			template: [
 				'<div class="col-xs-12">',
 					'{{#each this}}',
-					'<table class="table">',
-						'<caption class="header">{{capitalize type}} Activities</caption>',
-						'<thead>',
-							'<tr>',
-								'<th>Activity</th>',
-								'<th>Positions Held and Accomplishments</th>',
-							'</tr>',
-						'</thead>',
-						'<tbody>',
-							'{{#each activities}}',
-							'<tr>',
-								'<td>{{ name }}</td>',
-								'<td>{{unpipe details}}</td>',
-							'</tr>',
-							'{{/each}}',
-						'</tbody>',
-					'</table>',
+					'<div class="table-responsive">',
+						'<table class="table">',
+							'<caption class="header">{{capitalize type}} Activities</caption>',
+							'<thead>',
+								'<tr>',
+									'<th>Activity</th>',
+									'<th>Positions Held and Accomplishments</th>',
+								'</tr>',
+							'</thead>',
+							'<tbody>',
+								'{{#each activities}}',
+								'<tr>',
+									'<td>{{ name }}</td>',
+									'<td>{{unpipe details}}</td>',
+								'</tr>',
+								'{{/each}}',
+							'</tbody>',
+						'</table>',
+					'</div>',
 					'{{/each}}',
 				'</div>'
 			].join(''),
@@ -169,8 +173,8 @@
 	};
 
 	// ------------------------------------------ HANDLEBARS HELPERS
-	// get a key from an object, helpful for nested Handlebar iterations
-	Handlebars.registerHelper('getDetail', function(object, key) {
+	// get a value from an object-key combination for nested Handlebar iterations
+	Handlebars.registerHelper('getValue', function(object, key) {
 		return new Handlebars.SafeString(object[key]);
 	});
 
